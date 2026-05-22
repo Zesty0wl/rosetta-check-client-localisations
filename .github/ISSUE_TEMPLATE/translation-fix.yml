@@ -1,0 +1,44 @@
+name: ✏️ Translation fix
+description: Report a wrong, missing, or awkward translation
+title: "[<lang>] Fix: "
+labels: ["translation", "fix"]
+body:
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: French (fr)
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: English source string
+      description: The exact English string as it appears in the app (or in `Localizable.xcstrings`).
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Current translation
+      description: What does the app currently say?
+    validations:
+      required: false
+  - type: input
+    id: suggested
+    attributes:
+      label: Suggested translation
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why is the current translation wrong?
+      description: Grammar? Tone? Wrong term? Too long for the UI?
+    validations:
+      required: false
+  - type: input
+    id: screenshot
+    attributes:
+      label: Screenshot (optional)
+      description: Paste a screenshot or link if the issue is contextual (e.g. truncated in a dialog).

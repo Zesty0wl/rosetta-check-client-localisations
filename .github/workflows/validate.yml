@@ -1,0 +1,82 @@
+name: Validate translation files
+
+on:
+  pull_request:
+    paths:
+      - "Localizable.xcstrings"
+      - "InfoPlist.xcstrings"
+  push:
+    branches: [main]
+    paths:
+      - "Localizable.xcstrings"
+      - "InfoPlist.xcstrings"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON syntax
+        run: |
+          for f in Localizable.xcstrings InfoPlist.xcstrings; do
+            if [ -f "$f" ]; then
+              echo "Checking $f ..."
+              python3 -c "import json,sys; json.load(open('$f'))" || { echo "::error file=$f::Invalid JSON"; exit 1; }
+            fi
+          done
+
+      - name: Validate xcstrings schema
+        run: |
+          python3 <<'PY'
+          import json, sys
+
+          ALLOWED_STATES = {"new", "needs_review", "translated", "stale"}
+          errors = []
+
+          for path in ("Localizable.xcstrings", "InfoPlist.xcstrings"):
+              try:
+                  doc = json.load(open(path))
+              except FileNotFoundError:
+                  continue
+
+              if "sourceLanguage" not in doc:
+                  errors.append(f"{path}: missing top-level 'sourceLanguage'")
+              if "strings" not in doc:
+                  errors.append(f"{path}: missing top-level 'strings'")
+                  continue
+
+              source_lang = doc.get("sourceLanguage", "en")
+
+              for key, entry in doc["strings"].items():
+                  locs = entry.get("localizations", {}) or {}
+                  for lang, payload in locs.items():
+                      unit = payload.get("stringUnit")
+                      if unit is None:
+                          # Plural / variation form — skip detailed schema check for now
+                          continue
+                      state = unit.get("state")
+                      value = unit.get("value")
+                      if state not in ALLOWED_STATES:
+                          errors.append(f"{path}: '{key}' [{lang}] has invalid state '{state}'")
+                      if value is None:
+                          errors.append(f"{path}: '{key}' [{lang}] has no value")
+                      if state == "translated" and (value is None or value.strip() == ""):
+                          errors.append(f"{path}: '{key}' [{lang}] state=translated but value is empty")
+
+          if errors:
+              print("::group::Schema errors")
+              for e in errors:
+                  print(f"::error::{e}")
+              print("::endgroup::")
+              sys.exit(1)
+          print("All xcstrings files valid.")
+          PY
+
+      - name: Warn if English source strings changed
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          if git diff "origin/${{ github.base_ref }}" -- Localizable.xcstrings InfoPlist.xcstrings | grep -E '^\-\s+"en"\s*:' >/dev/null; then
+            echo "::warning::This PR appears to modify English source strings. Only the maintainer should change the source language — please confirm this is intentional."
+          fi

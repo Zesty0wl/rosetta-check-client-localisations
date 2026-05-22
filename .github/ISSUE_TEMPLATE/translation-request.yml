@@ -1,0 +1,39 @@
+name: 🌍 Translation request or claim
+description: Add a new language, or claim ownership of an existing one
+title: "[<lang>] "
+labels: ["translation"]
+body:
+  - type: input
+    id: language
+    attributes:
+      label: Language and locale code
+      description: e.g. "Spanish (es)", "Brazilian Portuguese (pt-BR)"
+      placeholder: Spanish (es)
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you proposing?
+      options:
+        - I want to add this language (it doesn't exist yet)
+        - I want to take over / co-maintain an existing language
+        - I want to do a one-off pass on existing strings
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Roughly how much do you plan to translate? (e.g. all 439 strings, just the onboarding, just the menu bar)
+    validations:
+      required: false
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: Contributor agreement
+      options:
+        - label: I have read [CONTRIBUTING.md](../../CONTRIBUTING.md) and the [style guide](../../STYLE-GUIDE.md).
+          required: true
+        - label: I agree to license my contributions under the MIT licence and grant the Rosetta Check maintainers the right to use them in the closed-source app.
+          required: true
