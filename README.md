@@ -1,6 +1,8 @@
 # Rosetta Check — Community Translations
 
-This repo holds the translation files for [**Rosetta Check**](https://rosettacheck.com), a free macOS utility that tells you which of your apps still depend on Rosetta 2 so you can plan your move to Apple silicon.
+This repo holds the translation files for [**Rosetta Check**](https://rosettacheck.com), a macOS utility that tells you which of your apps still depend on Rosetta 2 so you can plan your move to Apple silicon.
+
+Download the app: <https://rosettacheck.com/app>
 
 The app itself is closed-source, but the translations are open. **Anyone can submit a fix or a brand-new language** via pull request.
 
@@ -13,7 +15,7 @@ The app itself is closed-source, but the translations are open. **Anyone can sub
 | `de` | German      | 🌍 Community-maintained        |
 | `ja` | Japanese    | 🌍 Community-maintained        |
 
-Want to add a language? See [CONTRIBUTING.md](CONTRIBUTING.md).
+Want to add a language or fix a wrong string? See [CONTRIBUTING.md](CONTRIBUTING.md). For practical tips on editors, machine translation, plurals, and per-language style references, see [TRANSLATION-TIPS.md](TRANSLATION-TIPS.md).
 
 ## How translations reach the app
 

@@ -7,6 +7,8 @@ Thanks for helping make Rosetta Check usable in more languages. This guide cover
 
 Please also read [STYLE-GUIDE.md](STYLE-GUIDE.md) before you start — it lists terms that **must not** be translated (e.g. "Rosetta Check", "Apple silicon", "Intel") and explains the tone the app uses.
 
+For **practical advice on editors, machine translation, plurals, format strings (`%@`, `%d`), and per-language reference material**, see [TRANSLATION-TIPS.md](TRANSLATION-TIPS.md). New contributors should skim it at least once — it'll save you time and avoid the most common mistakes.
+
 ---
 
 ## Before you start
@@ -73,35 +75,20 @@ There are currently **439** strings in `Localizable.xcstrings`. You don't have t
 
 ---
 
-## The `state` field — important
+## Testing your translation
 
-Every string has a `state` per language. The values that matter:
+Rosetta Check is closed-source, so you can't build it locally. Verification of a PR happens in two stages:
 
-| `state`          | Meaning                                                          |
-|------------------|------------------------------------------------------------------|
-| `translated`     | ✅ The translation is current and will be shown to users.        |
-| `needs_review`   | ⚠️ Will be shown but is flagged for a maintainer to check.       |
-| `new`            | ❌ Falls back to English at runtime.                             |
-| `stale`          | ❌ English source changed; translation is outdated.              |
+1. **You** — read the [STYLE-GUIDE.md](STYLE-GUIDE.md), check your translations are well-formed in the diff, and confirm `state` is set to `translated`.
+2. **Maintainer** — runs your branch against a development build before merging, checks for length/truncation issues in the UI, and flags anything that doesn't fit.
 
-**If you edit a `value` you must also set `state` to `translated`** or your work won't appear in the app. This is the #1 mistake first-time contributors make.
+Once merged and shipped in the next release of the app (download: <https://rosettacheck.com/app>), you can force-launch in your language to see your work live:
 
----
+```bash
+/Applications/Rosetta\ Check.app/Contents/MacOS/Rosetta\ Check -AppleLanguages '(fr)'
+```
 
-## Testing your translation (optional)
-
-If you have a Mac and want to preview your work in the actual app before submitting:
-
-1. Install the latest release from [rosettacheck.com](https://rosettacheck.com).
-2. Force the language at launch from Terminal:
-
-   ```bash
-   /Applications/Rosetta\ Check.app/Contents/MacOS/Rosetta\ Check -AppleLanguages '(fr)'
-   ```
-
-   Replace `fr` with your language code.
-
-Note: you'll be testing against the *currently shipped* translations, not your PR. Maintainers will verify your changes against a development build before merging.
+Replace `fr` with your language code.
 
 ---
 
