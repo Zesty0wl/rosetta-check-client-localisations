@@ -68,10 +68,9 @@ After (correcting "Scan" to "Analyse"):
    }
    ```
 3. Do the same in `InfoPlist.xcstrings` (only ~5 strings).
-4. Create `metadata/<locale>/` with `description.txt`, `keywords.txt`, `promotional_text.txt` translated from `metadata/en-US/`.
-5. Open the PR. The title should be `Add <Language> (<code>) translation`.
+4. Open the PR. The title should be `Add <Language> (<code>) translation`.
 
-There are currently **439** strings in `Localizable.xcstrings`. You don't have to do them all in one PR — partial translations are welcome. Untranslated strings fall back to English at runtime, so nothing breaks.
+There are currently **617** strings in `Localizable.xcstrings`. You don't have to do them all in one PR — partial translations are welcome. Untranslated strings fall back to English at runtime, so nothing breaks.
 
 ---
 
@@ -98,7 +97,7 @@ By opening a pull request against this repo you agree that:
 
 1. Your contribution is your own work (or properly attributed if adapted).
 2. You licence your contribution under the [MIT licence](LICENSE).
-3. You grant the Rosetta Check maintainers a perpetual, worldwide, royalty-free right to use, modify, and redistribute your contribution inside the closed-source Rosetta Check application and any related materials (App Store listings, marketing, documentation).
+3. You grant the Rosetta Check maintainers a perpetual, worldwide, royalty-free right to use, modify, and redistribute your contribution inside the closed-source Rosetta Check application.
 
 If you can't agree to these terms, please don't submit a PR.
 

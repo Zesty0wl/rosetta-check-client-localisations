@@ -29,9 +29,10 @@ jobs:
       - name: Validate xcstrings schema
         run: |
           python3 <<'PY'
-          import json, sys
+          import json, re, sys
 
           ALLOWED_STATES = {"new", "needs_review", "translated", "stale"}
+          PLACEHOLDER = re.compile(r'%(?:\d+\$)?(lld|llu|ld|lu|zd|zu|d|u|f|g|s|c|@)')
           errors = []
 
           for path in ("Localizable.xcstrings", "InfoPlist.xcstrings"):
@@ -63,6 +64,8 @@ jobs:
                           errors.append(f"{path}: '{key}' [{lang}] has no value")
                       if state == "translated" and (value is None or value.strip() == ""):
                           errors.append(f"{path}: '{key}' [{lang}] state=translated but value is empty")
+                      if value is not None and sorted(PLACEHOLDER.findall(key)) != sorted(PLACEHOLDER.findall(value)):
+                          errors.append(f"{path}: '{key}' [{lang}] has mismatched placeholders")
 
           if errors:
               print("::group::Schema errors")

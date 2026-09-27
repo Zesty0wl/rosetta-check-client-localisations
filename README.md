@@ -29,7 +29,6 @@ There is **no separate sign-off** beyond the PR review — once merged, your tra
 
 - [`Localizable.xcstrings`](Localizable.xcstrings) — every user-facing string in the app. **This is the file most contributors edit.**
 - [`InfoPlist.xcstrings`](InfoPlist.xcstrings) — app name and macOS-level usage descriptions (Spotlight, Notifications, etc.). Rarely changes.
-- [`metadata/`](metadata/) — App Store Connect copy (description, keywords, promotional text) per locale.
 
 ## Licence
 
